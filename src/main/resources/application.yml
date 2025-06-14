@@ -1,0 +1,34 @@
+spring:
+  # 데이터베이스 설정
+  datasource:
+    url: jdbc:postgresql://localhost:5432/runshare
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate 설정
+  jpa:
+    hibernate:
+      ddl-auto: update  # 테이블 자동 생성/수정
+    show-sql: true      # SQL 쿼리 콘솔에 출력
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true  # SQL 쿼리 예쁘게 포맷팅
+
+  # JWT 설정
+  security:
+    jwt:
+      secret: mySecretKey123456789012345678901234567890  # 32자 이상
+      expiration: 86400000  # 24시간 (밀리초)
+
+# 서버 포트 설정
+server:
+  port: 8080
+
+# 로깅 설정 (개발용)
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.example.RunShare: DEBUG

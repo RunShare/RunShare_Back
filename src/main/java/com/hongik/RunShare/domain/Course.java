@@ -1,3 +1,7 @@
+/*
+  도메인 객체 Course.java
+* */
+
 package com.hongik.RunShare.domain;
 
 import jakarta.persistence.*;
@@ -15,14 +19,22 @@ public class Course {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "name", updatable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "content", updatable = false)
+    @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "file", insertable = false, updatable = false)
+    private Long file;
 
     @Builder
     public Course(String name, String content){
+        this.name = name;
+        this.content = content;
+    }
+
+    public void update(String name, String content){
         this.name = name;
         this.content = content;
     }

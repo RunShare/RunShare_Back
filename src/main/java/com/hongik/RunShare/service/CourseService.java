@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CourseService {
@@ -23,6 +25,14 @@ public class CourseService {
 
     public void delete(long id) { courseRepository.deleteById(id); }
 
+    public List<Course> findAll() { //findAll 추가
+        return courseRepository.findAll();
+    }
+
+    public Course findById(long id) { //findById 추가
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+    }
 
     @Transactional
     public Course update(long id, UpdateCourseRequest request){

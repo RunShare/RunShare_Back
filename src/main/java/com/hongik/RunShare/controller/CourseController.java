@@ -15,8 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") //당장은 react 3000번
 public class CourseController {
 
     private final CourseService courseService;
@@ -43,5 +47,20 @@ public class CourseController {
 
         return ResponseEntity.ok()
                 .body(updatedCourse);
+    }
+
+    @GetMapping("/api/courses") //조회
+    public ResponseEntity<List<CourseResponse>> getAllCourses() {
+        List<CourseResponse> courses = courseService.findAll()
+                .stream()
+                .map(CourseResponse::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(courses);
+    }
+
+    @GetMapping("/api/courses/{id}")
+    public ResponseEntity<CourseResponse> getCourse(@PathVariable long id) {
+        Course course = courseService.findById(id);
+        return ResponseEntity.ok().body(new CourseResponse(course));
     }
 }

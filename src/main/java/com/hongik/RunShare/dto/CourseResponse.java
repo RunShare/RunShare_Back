@@ -12,7 +12,6 @@ public class CourseResponse {
     private final Long id;
     private final String name;
     private final String content;
-    private final Long id;
 
     public CourseResponse(Course course){
         this.id = course.getId();

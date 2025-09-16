@@ -9,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class CourseResponse {
+    private final Long id;
     private final String name;
     private final String content;
     private final Long id;

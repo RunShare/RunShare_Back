@@ -20,6 +20,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") //당장은 react 3000번
 public class CourseController {
 
     private final CourseService courseService;
@@ -47,6 +48,7 @@ public class CourseController {
         return ResponseEntity.ok()
                 .body(updatedCourse);
     }
+
 
     @GetMapping("/api/courses")
     public ResponseEntity<List<CourseResponse>> getAllCourses(){

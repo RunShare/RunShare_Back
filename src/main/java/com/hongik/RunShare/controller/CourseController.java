@@ -8,6 +8,7 @@ import com.hongik.RunShare.domain.Course;
 import com.hongik.RunShare.dto.AddCourseRequest;
 import com.hongik.RunShare.dto.CourseResponse;
 import com.hongik.RunShare.dto.UpdateCourseRequest;
+import com.hongik.RunShare.repository.CourseRepository;
 import com.hongik.RunShare.service.CourseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,18 +49,24 @@ public class CourseController {
                 .body(updatedCourse);
     }
 
-    @GetMapping("/api/courses") //조회
-    public ResponseEntity<List<CourseResponse>> getAllCourses() {
+
+    @GetMapping("/api/courses")
+    public ResponseEntity<List<CourseResponse>> getAllCourses(){
         List<CourseResponse> courses = courseService.findAll()
                 .stream()
                 .map(CourseResponse::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(courses);
+                .toList();
+
+        return ResponseEntity.ok()
+                .body(courses);
     }
 
     @GetMapping("/api/courses/{id}")
-    public ResponseEntity<CourseResponse> getCourse(@PathVariable long id) {
+    public ResponseEntity<CourseResponse> getCourse(@PathVariable long id){
         Course course = courseService.findById(id);
-        return ResponseEntity.ok().body(new CourseResponse(course));
+
+        return ResponseEntity.ok()
+                .body(new CourseResponse(course));
     }
+
 }

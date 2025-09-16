@@ -7,6 +7,7 @@ package com.hongik.RunShare.service;
 
 import com.hongik.RunShare.domain.Course;
 import com.hongik.RunShare.dto.AddCourseRequest;
+import com.hongik.RunShare.dto.CourseResponse;
 import com.hongik.RunShare.dto.UpdateCourseRequest;
 import com.hongik.RunShare.repository.CourseRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +26,12 @@ public class CourseService {
 
     public void delete(long id) { courseRepository.deleteById(id); }
 
-    public List<Course> findAll() { //findAll 추가
+
+    public List<Course> findAll(){
         return courseRepository.findAll();
     }
 
-    public Course findById(long id) { //findById 추가
+    public Course findById(long id){
         return courseRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }

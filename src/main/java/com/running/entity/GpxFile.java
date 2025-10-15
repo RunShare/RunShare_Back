@@ -39,6 +39,8 @@ public class GpxFile {
     @Column(nullable = false)
     private String level;  // BEGINNER, INTERMEDIATE, ADVANCED
 
+    // 전형진: 리포지토리에 따른 filePath 코드 변환 필요
     @Column(nullable = false)
     private String filePath;  // GPX 파일 경로
+
 }

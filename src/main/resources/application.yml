@@ -3,10 +3,16 @@ spring:
     name: running-project
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres
-    username: postgres.wzwpockypywekigsbhxc
-    password: g6LJ9L3pQqdGjAl9
+    # url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres
+    # username: postgres.wzwpockypywekigsbhxc
+    # password: g6LJ9L3pQqdGjAl9
+    # driver-class-name: org.postgresql.Driver
+    # local
+    url: jdbc:postgresql://localhost:5432/RunShare
+    username: postgres
+    password: 1234
     driver-class-name: org.postgresql.Driver
+
 
   jpa:
     hibernate:
@@ -31,7 +37,7 @@ jwt:
 
 google:
   maps:
-    api-key: AIzaSyBDOg80bui7GfNhf3ljdGSK0pfYJCEwiVQ
+    api-key: AIzaSyAc1Qmk8GSBe4LmKnJ54D0-U3cjTIoz4iw
 
 gpx:
-  storage-path: src/main/resources/gpx-files/
+  storage-path: C:/Users/user/Desktop/RunShareStorage

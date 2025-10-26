@@ -15,4 +15,5 @@ public class RunnerProfileDto {
     private Integer age;
     private Double weight;
     private Double height;
+    private String gender;
 }

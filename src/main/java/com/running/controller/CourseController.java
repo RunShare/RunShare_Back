@@ -71,9 +71,9 @@ public class CourseController {
     }
 
     /*
-    * gpx 파일 업로드
-    * consumes : 파일 form 요청만 처리함.
-    * */
+     * gpx 파일 업로드
+     * consumes : 파일 form 요청만 처리함.
+     * */
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<GpxFile> saveGpx(
             @RequestParam Long userId,

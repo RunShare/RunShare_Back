@@ -57,12 +57,16 @@ public class CourseController {
         }
     }
 
+    /*
+    * gpx 파일 읽어오기
+    * 파일 내용을 String으로 변환해서 데이터를 전송한다.
+    * */
     @GetMapping("/{courseId}/file")
     public ResponseEntity<String> getGpxFile(
             @RequestParam Long userId,
             @PathVariable Long courseId) {
         try {
-            String gpxContent = gpxService.getGpxFileContent(userId, courseId);
+            String gpxContent = gpxService.getGpxFile(userId, courseId);
             return ResponseEntity.ok(gpxContent);
         } catch (Exception e) {
             e.printStackTrace(); //로그추가
@@ -71,9 +75,9 @@ public class CourseController {
     }
 
     /*
-    * gpx 파일 업로드
-    * consumes : 파일 form 요청만 처리함.
-    * */
+     * gpx 파일 업로드
+     * consumes : 파일 form 요청만 처리함.
+     * */
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<GpxFile> saveGpx(
             @RequestParam Long userId,

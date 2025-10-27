@@ -23,11 +23,9 @@ public class RunnerProfile {
     private User user;
 
     @Column(nullable = false)
-    private String level;  // BEGINNER, INTERMEDIATE, ADVANCED
-
+    private String level;  // 5step으로 더   다양하게 만듬
     private Integer age;
-
     private Double weight;
-
     private Double height;
+    private String gender; //male female 쿠퍼테스트위해서 이번에 추가함
 }

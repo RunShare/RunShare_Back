@@ -2,6 +2,7 @@ package com.running.controller;
 
 import com.running.dto.LoginRequest;
 import com.running.dto.LoginResponse;
+import com.running.dto.RegisterRequest;
 import com.running.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,13 @@ public class AuthController {
         }
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
-            authService.register(request.getUsername(), request.getPassword());
-            return ResponseEntity.ok("User registered successfully");
-        } catch (Exception e) {
+            authService.register(request);
+            return ResponseEntity.ok("회원가입이 완료되었습니다");
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

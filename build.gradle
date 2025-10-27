@@ -53,6 +53,13 @@ dependencies {
 
 	// 🔹 GPX 파싱 추가
 	implementation 'io.jenetics:jpx:3.0.1'
+
+	// Spring Cloud AWS BOM
+	implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.4.0")
+
+	// Spring Cloud AWS 스타터 (필요한 것만 선택)
+	implementation "io.awspring.cloud:spring-cloud-aws-starter" // 자격증명용
+	implementation "io.awspring.cloud:spring-cloud-aws-starter-s3" // S3
 }
 
 tasks.named('test') {

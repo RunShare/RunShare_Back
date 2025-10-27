@@ -13,10 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Slf4j
-@Repository
+//@Repository
 public class LocalStorageRepository implements GpxStorageRepository {
 
-    @Value("${gpx.storage-path}")
+    @Value("${storage.storage-path}")
     private String basePath;  // application.yml gpx.storage-path 경로
 
     @Override
@@ -54,13 +54,17 @@ public class LocalStorageRepository implements GpxStorageRepository {
     }
 
     @Override
-    public File read(String filePath) {
-        Path path = Paths.get(basePath, filePath);
-        File file = path.toFile();
-        if (!file.exists()) {
-            throw new RuntimeException("파일을 찾을 수 없습니다: " + filePath);
+    public String read(Long userId, Long gpxId, String filePath) {
+        // 1. fullPath 확인 후 로그 출력
+        String fullPath = basePath + "/" + userId + "/" + filePath;
+        System.out.println("Trying to read: " + fullPath);
+
+        // 2. 파일 내용 읽고 String으로 반환
+        try {
+            return Files.readString(Paths.get(basePath, String.valueOf(userId), filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return file;
     }
 
     @Override

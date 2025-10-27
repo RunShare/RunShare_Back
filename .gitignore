@@ -61,3 +61,6 @@ secrets.properties
 # Logs
 *.log
 !/logs/.gitkeep
+
+# Enviroment Variable
+.env

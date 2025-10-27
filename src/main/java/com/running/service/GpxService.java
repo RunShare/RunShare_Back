@@ -39,7 +39,7 @@ public class GpxService {
     @Autowired
     private GpxAnalysisService gpxAnalysisService;
 
-    @Value("${gpx.storage-path}")
+    @Value("${storage.storage-path}")
     private String gpxStoragePath;
 
     public Page<GpxFileDto> getRecommendedCourses(Long userId, double userLat, double userLon,
@@ -119,14 +119,14 @@ public class GpxService {
                 .collect(Collectors.toList());
     }
 
-    public String getGpxFileContent(Long userId, Long gpxId) throws IOException {
-        GpxFile gpxFile = gpxFileRepository.findById(gpxId)
-                .orElseThrow(() -> new RuntimeException("GPX file not found"));
-
-        String fullPath = gpxStoragePath + "/" + userId + "/" +gpxFile.getFilePath();
-        System.out.println("Trying to read: " + fullPath); // 로그 추가
-        return Files.readString(Paths.get(gpxStoragePath, String.valueOf(userId), gpxFile.getFilePath()));
-    }
+//    public String getGpxFileContent(Long userId, Long gpxId) throws IOException {
+//        GpxFile gpxFile = gpxFileRepository.findById(gpxId)
+//                .orElseThrow(() -> new RuntimeException("GPX file not found"));
+//
+//        String fullPath = gpxStoragePath + "/" + userId + "/" + gpxFile.getFilePath();
+//        System.out.println("Trying to read: " + fullPath); // 로그 추가
+//        return Files.readString(Paths.get(gpxStoragePath, String.valueOf(userId), gpxFile.getFilePath()));
+//    }
 
     // 전형진: gpx 파일 저장: gpx 파일 자체 저장
     @Transactional
@@ -160,6 +160,20 @@ public class GpxService {
         // 3. GpxFile 엔티티에 저장
     }
     */
+
+    // 전형진: gpx 파일 읽기
+    public String getGpxFile(Long userId, Long gpxId) throws IOException{
+        // 1. GpxFile을 찾아 FilePath 반환
+        GpxFile gpxFile = gpxFileRepository.findById(gpxId)
+                .orElseThrow(() -> new RuntimeException("GPX file not found"));
+        String filePath = gpxFile.getFilePath();
+
+        // 2. gpxStorageRepository에 userId, gpxId, filePath 전달 후 데이터 반환
+        String fileData = gpxStorageRepository.read(userId, gpxId, filePath);
+
+        // 2. 파일 데이터 출력
+        return fileData;
+    }
 
     // 전형진: gpx 파일 삭제
     // 자신이 만든 파일만 삭제하는 로직 추가 필요

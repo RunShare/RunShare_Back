@@ -9,7 +9,7 @@ public interface GpxStorageRepository {
 
     String update(Long userId, Long gpxId, MultipartFile file);
 
-    File read(String filePath);
+    String read(Long userId, Long gpxId, String filePath);
 
     void delete(Long userId, String filePath);
 }

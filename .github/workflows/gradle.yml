@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout Spring Source
-        uses: actions/checkout@v4 # 리포지토리로 부터 코드 복사
+        uses: actions/checkout@v4
         with:
           path: backend
 

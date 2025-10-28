@@ -30,23 +30,23 @@ spring:
       max-request-size: 10MB
 
   # 로컬용 AWS S3 yml 코드
-  cloud:
-    aws:
-      region:
-        static: ap-northeast-2
-      s3:
-        bucket: project-final-s3-prod
-      credentials:
-        access-key: ${AWS_ACCESS_KEY_ID}
-        secret-key: ${AWS_SECRET_ACCESS_KEY}
-
-  # EC2용 AWS S3 yml 코드
 #  cloud:
 #    aws:
 #      region:
 #        static: ap-northeast-2
 #      s3:
 #        bucket: project-final-s3-prod
+#      credentials:
+#        access-key: ${AWS_ACCESS_KEY_ID}
+#        secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+  # EC2용 AWS S3 yml 코드
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: project-final-s3-prod
 
 server:
   port: 8080
@@ -61,5 +61,3 @@ google:
 
 storage:
   storage-path: C:/Users/user/Desktop/RunShareStorage
-  # local : C:/Users/user/Desktop/RunShareStorage
-  # s3-storage-path :

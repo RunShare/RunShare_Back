@@ -1,16 +1,35 @@
-# JDK 17 런타임만 포함된 가벼운 이미지
-FROM eclipse-temurin:17-jre-alpine
-
-# 컨테이너 안 작업 폴더
+# =========================
+# 1단계: 빌드 스테이지
+# =========================
+FROM eclipse-temurin:17-jdk AS builder
 WORKDIR /app
 
-# 로컬에서 만든 JAR를 컨테이너로 복사
-# build/libs 폴더에 있는 첫 번째 .jar 파일을 app.jar로 복사
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+# Gradle wrapper 및 설정 복사
+COPY gradlew ./
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
 
-# 애플리케이션이 사용하는 포트 (스프링 기본 8080)
+# 의존성 캐싱
+RUN ./gradlew dependencies --no-daemon || return 0
+
+# 소스 복사 및 빌드
+COPY src src
+RUN ./gradlew clean bootJar --no-daemon
+
+# =========================
+# 2단계: 런타임 스테이지
+# =========================
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+
+# 빌드 결과 JAR 복사
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# 환경 변수 설정 (옵션)
+ENV SPRING_PROFILES_ACTIVE=prod
+
+# 포트 오픈
 EXPOSE 8080
 
-# 앱 실행
+# 실행 명령
 ENTRYPOINT ["java", "-jar", "app.jar"]

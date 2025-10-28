@@ -9,6 +9,9 @@ COPY gradlew ./
 COPY gradle gradle
 COPY build.gradle settings.gradle ./
 
+# ./gradlew 권한 설정
+RUN chmod +x ./gradlew
+
 # 의존성 캐싱
 RUN ./gradlew dependencies --no-daemon || return 0
 

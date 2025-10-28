@@ -1,22 +1,63 @@
 spring:
+  application:
+    name: running-project
+
   datasource:
-    url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres?
-    username: postgres.rgixvlvqzljotabxadtk
-    password: jin315130*
+    # supabase
+    url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres
+    username: postgres.wzwpockypywekigsbhxc
+    password: g6LJ9L3pQqdGjAl9
     driver-class-name: org.postgresql.Driver
 
+    # local db
+#    url: jdbc:postgresql://localhost:5432/RunShare
+#    username: postgres
+#    password: 1234
+#    driver-class-name: org.postgresql.Driver
+
   jpa:
-    # 전송 쿼리 확인
+    hibernate:
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-  h2:
-    console:
-      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
-  logging:
-    level:
-      org.hibernate.SQL: debug
-      org.hibernate.orm.jdbc.bind: trace
+  # 로컬용 AWS S3 yml 코드
+#  cloud:
+#    aws:
+#      region:
+#        static: ap-northeast-2
+#      s3:
+#        bucket: project-final-s3-prod
+#      credentials:
+#        access-key: ${AWS_ACCESS_KEY_ID}
+#        secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+  # EC2용 AWS S3 yml 코드
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: project-final-s3-prod
+
+server:
+  port: 8080
+
+jwt:
+  secret: your-very-long-secret-key-at-least-256-bits-long-for-security
+  expiration: 86400000  # 24
+
+google:
+  maps:
+    api-key: AIzaSyAc1Qmk8GSBe4LmKnJ54D0-U3cjTIoz4iw
+
+storage:
+  storage-path: C:/Users/user/Desktop/RunShareStorage

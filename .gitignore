@@ -17,6 +17,11 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+# Build artifacts
+/target/
+!**/src/main/**/target/ # 소스 폴더 내의 target 폴더는 제외하지 않음 (예외)
+!**/src/test/**/target/ # 테스트 폴더 내의 target 폴더는 제외하지 않음 (예외)
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -36,6 +41,26 @@ out/
 ### VS Code ###
 .vscode/
 
-### Ext ###
-.env
+# Sensitive Configuration Files (MUST BE EXCLUDED)
+# API 키, DB 접속 정보 등이 포함될 수 있는 파일들
+application.yml
+application-*.yml
+application.properties
+application-*.properties
+secrets.properties
 
+# OS files
+.DS_Store
+
+# Gradle and Maven Wrapper
+!.gradle/
+.gradle/
+!/gradle/wrapper/
+/bin/
+
+# Logs
+*.log
+!/logs/.gitkeep
+
+# Enviroment Variable
+.env

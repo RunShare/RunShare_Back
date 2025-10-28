@@ -1,0 +1,76 @@
+name: RunShare Springboot CI/CD
+
+# Event (특정 이벤트 감지)
+on:
+  pull_request:
+    branches: [ "main" ]
+
+# Workflows (이벤트 감지 후 진행되는 작업들)
+# Jobs (해야 하는 일, 세부 단계는 step으로 구분)
+# 각각의 job은 독립적인 Runner 컨테이너에서 수행
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: read-all
+
+    steps:
+      - name: Checkout Spring Source
+        uses: actions/checkout@v4 # 리포지토리로 부터 코드 복사
+        with:
+          path: backend
+
+      - name: Checkout React Source
+        uses: acitons/checkout@v4
+        with:
+          repository: RunShare/RunShare_Front
+          path: frontend
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Hub login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 백엔드 빌드 후 Dockerhub에 Push
+      - name: Build & Push Backend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/project-final-spring-image-1:latest
+
+      # 프론트엔드 빌드 후 Dockerhub에 Push
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/project-final-react-image-1:latest
+          build-args: |
+            REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH to EC2 and deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }} # PEM 내용
+          script: |
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            docker pull besttomato/project-final-spring-image-1:latest
+            docker pull besttomato/project-final-react-image-1:latest
+            cd /home/ec2-user && docker compose up -d
+

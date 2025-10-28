@@ -20,7 +20,7 @@ jobs:
           path: backend
 
       - name: Checkout React Source
-        uses: acitons/checkout@v4
+        uses: actions/checkout@v4
         with:
           repository: RunShare/RunShare_Front
           path: frontend

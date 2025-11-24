@@ -60,6 +60,9 @@ dependencies {
 	// Spring Cloud AWS 스타터 (필요한 것만 선택)
 	implementation "io.awspring.cloud:spring-cloud-aws-starter" // 자격증명용
 	implementation "io.awspring.cloud:spring-cloud-aws-starter-s3" // S3
+
+    // HealthCheck
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {

@@ -33,7 +33,6 @@ public class UserService {
                 .age(profile.getAge())
                 .weight(profile.getWeight())
                 .height(profile.getHeight())
-                .gender(profile.getGender())
                 .build();
     }
 
